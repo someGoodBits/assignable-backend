@@ -45,16 +45,16 @@ async function acceptAllJoinRequest(req,res){
         if(joinReqDoc.exists){
             requestRef.delete()
             .then(()=>{
-                const enrollRef = firestore.doc(`enrolledStudents/${studentID}`) ;
-                enrollRef.get()
-                .then((docRef)=>{
-                    if(docRef.exists){
+                const enrollRef = firestore.collection(`enrolledStudents`) ;
+                enrollRef.where("studentID","==",studentID).where("classroomID","==",classroomID).get()
+                .then((snapshot)=>{
+                    if(snapshot.docs.length > 0){
                         res.status(400).json({
                             status:"failure",
                             message:"Student already enrolled in class",
                         })
                     }else{
-                        enrollRef.set({
+                        enrollRef.add({
                             classroomID,
                             studentID,
                             studentName : studentData.displayName,

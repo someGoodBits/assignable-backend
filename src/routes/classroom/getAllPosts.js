@@ -6,24 +6,51 @@ const { firestore } = require("../../services/firebase-service");
 
 function getAllPosts(req,res){
 
-    firestore
-    .collection('classroom')
-    .doc(req.classroom.classroomID)
-    .collection('posts')
-    .get()
-    .then((snapshot)=>{
-
-        res.status(200).json({
-            status:"success",
-            message : snapshot.docs.map(doc => ({...doc.data(),postID:doc.id}))
+    if(req.user.isTeacher === true) {
+        firestore
+        .collection('classroom')
+        .doc(req.classroom.classroomID)
+        .collection('posts')
+        .get()
+        .then((snapshot)=>{
+            res.status(200).json({
+                status:"success",
+                message : snapshot.docs.map(doc => ({...doc.data(),postID:doc.id}))
+            })
+        }).catch(error =>{
+            console.error(error);
+            res.status(400).json({
+                status:"failure",
+                message : error.message
+            })
         })
-    }).catch(error =>{
-        console.error(error);
+    } else if(req.user.isStudent === true) {
+        firestore
+        .collection('classroom')
+        .doc(req.classroom.classroomID)
+        .collection('posts')
+        .where("isPublic","==",true)
+        .get()
+        .then((snapshot)=>{
+            res.status(200).json({
+                status:"success",
+                message : snapshot.docs.map(doc => ({...doc.data(),postID:doc.id}))
+            })
+        }).catch(error =>{
+            console.error(error);
+            res.status(400).json({
+                status:"failure",
+                message : error.message
+            })
+        })
+    } else {
         res.status(400).json({
             status:"failure",
-            message : error.message
+            message : "Invalid Role"
         })
-    })
+    }
+
+    
 }
 
 module.exports = getAllPosts ;

@@ -2,7 +2,7 @@ const path = require("path") ;
 const { storage, firestore } = require("../../services/firebase-service");
 
 async function uploadFile(req,res){
-
+    // console.log(req.body);
 	const classroomID = req.body.classroomID; 
 	const postID = req.body.postID ; 
 

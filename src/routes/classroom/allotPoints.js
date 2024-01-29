@@ -3,7 +3,7 @@ const { firestore } = require("../../services/firebase-service");
 function allotPoints(req,res){
 
     const classroomID = req.body.classroomID;
-    const studentID = req.user.uid;
+    const studentID = req.body.studentID;
     const postID = req.body.postID;
     const points = req.body.points;
 
@@ -20,7 +20,7 @@ function allotPoints(req,res){
     	points
     })
     .then(()=>{
-    	res.status(400).json({
+    	res.json({
 			status : "success",
             message : "Marks alloted sent"
         })

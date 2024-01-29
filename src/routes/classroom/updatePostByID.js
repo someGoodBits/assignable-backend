@@ -10,6 +10,7 @@ function updatePostByID(req,res){
     const time = Date.now();
     data = {
         description: req.body.description,
+		isPublic: req.body.isPublic === "true" ? true : false,
         updatedAt: time,
     };
 
@@ -51,7 +52,7 @@ function updatePostByID(req,res){
     	.then((docRef)=>{
     		res.status(200).json({
                 status: "success",
-                message: data,
+                message: {data,postID : docRef.id},
             });
     	})
     	.catch((error)=>{

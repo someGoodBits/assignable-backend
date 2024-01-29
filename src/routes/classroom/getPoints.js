@@ -2,11 +2,11 @@ const { firestore } = require("../../services/firebase-service");
 
 function getPoints(req,res){
 
-    const classroomID = req.body.classroomID;
-    const postID = req.body.postID;
-    const studentID = req.body.studentID;
+    const classroomID = req.query.classroomID;
+    const postID = req.query.postID;
+    const studentID = req.query.studentID;
 
-    if(req.classroomPost.isPointsPublished){
+    if(req.classroomPost.isPointsPublished || true){
 
 
     	firestore
@@ -21,9 +21,12 @@ function getPoints(req,res){
 	    	if(docRef.exist){
 	    		const data = docRef.data();
 	    		res.status(200).json({
-	    			isPointsPublished:true,
-	    			points:data.points
-	    		})
+					status : "success",
+					message : {
+						isPointsPublished:true,
+						points:data.points || 0
+					}
+				})
 	    		return;
 	    	}
 	    	else{

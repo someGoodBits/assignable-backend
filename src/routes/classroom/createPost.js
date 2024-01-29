@@ -12,6 +12,7 @@ function createPost(req,res){
         description: req.body.description,
         createdAt: time,
         updatedAt: time,
+		isPublic:false
     };
 
     if(req.body.postType === 'ANNOUNCEMENT'){
@@ -24,7 +25,7 @@ function createPost(req,res){
     	.then((docRef)=>{
     		res.status(200).json({
                 status: "success",
-                message: data,
+                message: {...data,postID:docRef.id},
             });
     	})
     	.catch((error)=>{
@@ -37,9 +38,9 @@ function createPost(req,res){
     }
     else if (req.body.postType === 'ASSIGNMENT'){
     	data = {...data, 
-    		maxPoints : req.body.maxPoints,
-    		deadline : req.body.deadline,
-    		submissionOpen : req.body.submissionOpen,
+    		maxPoints : req.body.maxPoints || 10,
+    		deadline : req.body.deadline || 0,
+    		submissionOpen : false,
 			isPointsPublished : false
     	};
 
@@ -51,7 +52,7 @@ function createPost(req,res){
     	.then((docRef)=>{
     		res.status(200).json({
                 status: "success",
-                message: data,
+                message: {...data,postID:docRef.id},
             });
     	})
     	.catch((error)=>{

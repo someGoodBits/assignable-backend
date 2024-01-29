@@ -16,7 +16,7 @@ function getPostBtID(req,res){
         if(docRef.exists){
            res.status(200).json({
                 status:"success",
-                message : docRef.data()
+                message : {...docRef.data(),postID:docRef.id}
             }) 
         } else {
             res.status(404).json({

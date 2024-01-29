@@ -4,8 +4,8 @@ const { storage, firestore } = require("../../services/firebase-service");
 
 function getSubmissions(req,res){
 
-	const postID = req.body.postID; 
-	const classroomID = req.body.classroomID;
+	const postID = req.query.postID; 
+	const classroomID = req.query.classroomID;
 	let uploadLocation = 'submission';
 
 	let fileRef =  firestore
@@ -19,10 +19,9 @@ function getSubmissions(req,res){
 		fileRef
 		.get()
 		.then((snapshot)=>{
-
 	    	res.status(200).json({
 	    		status:"success",
-	    		message : snapshot.docs.map((doc)=>doc.data())
+	    		message : snapshot.docs.map((doc)=>({...doc.data(),id:doc.id}))
 	    	})
 	    })
     	.catch((error)=>{
@@ -39,7 +38,7 @@ function getSubmissions(req,res){
 		.then((snapshot)=>{
 			res.status(200).json({
 				status : 'success',
-				message : snapshot.docs.map((doc)=>doc.data())
+				message : snapshot.docs.map((doc)=>({...doc.data(),id:doc.id}))
 			})
 		})
 		.catch((error)=>{

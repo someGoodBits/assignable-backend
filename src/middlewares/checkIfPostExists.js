@@ -3,8 +3,8 @@ const {firestore } = require("../services/firebase-service");
 
 const checkIfPostExists = (req, res, next) => {
 
-	const postID = req.body.postID;
-	const classroomID = req.body.classroomID;
+	const postID = req.query.postID;
+	const classroomID = req.query.classroomID;
 
 	if(!postID || typeof postID !== 'string'){
 		res.status(400).json({

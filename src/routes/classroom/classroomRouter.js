@@ -34,6 +34,7 @@ const publishPoints = require("./publishPoints.js");
 const getPoints = require("./getPoints.js");
 const getJoinRequests = require("./getJoinRequests.js");
 const getStudents = require("./getStudents.js");
+const getUploads = require("./getUploads.js");
 
 
 
@@ -87,9 +88,7 @@ router.get(
 // route to get all students in a classroom
 router.get(
     "/students", 
-    checkIfUserIsTeacher, 
     checkIfClassroomExists, 
-    checkIfTeacherOwnsClassroom, 
     getStudents
 );
 
@@ -154,11 +153,17 @@ router.get(
     getAllPosts
 );
 
+router.get(
+    "/post/getPoints",
+    checkIfClassroomExists,
+    checkIfPostExists,
+    getPoints
+);
+
 // route to get individual post of classroom
 router.get(
     "/post/:postID",
     checkIfClassroomExists,
-    checkIfTeacherOwnsClassroom,
     getPostByID
 );
 
@@ -181,7 +186,6 @@ router.post(
 // route to delete file
 router.delete(
     "/upload",
-    uploadMiddleware.single("file"),
     checkIfClassroomExists,
     deleteFile
 );
@@ -189,11 +193,16 @@ router.delete(
 // route to get submission. If teacher, get all submission on the post.
 // if student, get only submission of student
 router.get(
-    "/upload",
+    "/submissions",
     checkIfClassroomExists,
     getSubmissions
 );
 
+router.get(
+    "/uploads",
+    checkIfClassroomExists,
+    getUploads
+);
 // todo test 3 API below
 
 // route to allot points to specific student in specific post
@@ -216,12 +225,7 @@ router.patch(
 );
 
 // route to get points of individual student on a specific post
-router.get(
-    "/post/getMarks",
-    checkIfClassroomExists,
-    checkIfPostExists,
-    getPoints
-);
+
 
 // route to get all join requests
 router.get(
