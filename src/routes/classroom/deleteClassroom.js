@@ -1,44 +1,41 @@
 const { firestore } = require("../../services/firebase-service");
 
-function deleteClassroom(req,res){
-	const classroomID = req.body.classroomID;
+function deleteClassroom(req, res) {
+  const classroomID = req.body.classroomID;
 
+  if (!classroomID) {
+    res.status(400).json({
+      status: "failure",
+      message: "Invalid classroomID",
+    });
+    return;
+  }
 
-    if(!classroomID){
-        res.status(400).json({
-            status :"failure",
-            message : "Invalid classroomID" 
-        })
-        return;
-    }
-
-    firestore.collection('classroom')
+  const aa = firestore
+    .collection("classroom")
     .doc(classroomID)
     .delete()
-    .then(()=>{
+    .then(() => {
+      // update below code after learning batched writes
+      // firestore.collection('enrolledStudents')
+      // .where('classroomID','==',classroomID)
+      // .get()
+      // .then((snapshot)=>{
+      //     // batched
+      // })
 
-        // update below code after learning batched writes
-        // firestore.collection('enrolledStudents')
-        // .where('classroomID','==',classroomID)
-        // .get()
-        // .then((snapshot)=>{
-        //     // batched 
-        // })
-        
-        res.status(500).json({
-            status :"failure",
-            message : "Unable to delete classroom" 
-        })
+      res.status(500).json({
+        status: "failure",
+        message: "Unable to delete classroom",
+      });
     })
-    .catch(error=>{
-        console.error(error);
-        res.status(500).json({
-            status :"failure",
-            message : "Unable to delete classroom" 
-        })
-    })
-
-    
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({
+        status: "failure",
+        message: "Unable to delete classroom",
+      });
+    });
 }
 
-module.exports = deleteClassroom ;
+module.exports = deleteClassroom;
