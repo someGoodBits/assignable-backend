@@ -59,11 +59,11 @@ router.patch(
 
 // router to delete classroom
 router.delete(
-  "/classroom",
-  checkIfUserIsTeacher,
-  checkIfClassroomExists,
-  checkIfTeacherOwnsClassroom,
-  deleteClassroom
+    "/:classroomID", 
+    checkIfUserIsTeacher,
+    checkIfClassroomExists, 
+    checkIfTeacherOwnsClassroom, 
+    deleteClassroom
 );
 
 // route to create join requests
