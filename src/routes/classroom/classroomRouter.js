@@ -59,14 +59,6 @@ router.patch(
     updateClassroomDetails
 );
 
-// router to delete classroom
-router.delete(
-    "/:classroomID", 
-    checkIfUserIsTeacher,
-    checkIfClassroomExists, 
-    checkIfTeacherOwnsClassroom, 
-    deleteClassroom
-);
 
 // route to create join requests
 router.post(
@@ -236,7 +228,14 @@ router.get(
     getJoinRequests
 );
 
-
+// router to delete classroom
+router.delete(
+    "/:classroomID", 
+    checkIfUserIsTeacher,
+    checkIfClassroomExists, 
+    checkIfTeacherOwnsClassroom, 
+    deleteClassroom
+);
 
 
 // route to get a classrom details by classroom id

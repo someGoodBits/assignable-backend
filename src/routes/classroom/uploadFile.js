@@ -25,6 +25,7 @@ async function uploadFile(req,res){
             fileName  : req.file.originalname,
             filePath  : `${classroomID}/${uploadLocation}/${fileName}`,
             owner     : req.user.uid,
+            user      : req.user
         }
 
         if(req.user.isStudent) {

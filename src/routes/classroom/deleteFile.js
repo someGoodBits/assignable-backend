@@ -7,7 +7,7 @@ function deleteFile(req,res){
     const postID = req.body.postID; 
 	const uploadID = req.body.uploadID; 
     const classroomID = req.body.classroomID;
-
+    console.log({filePath, postID, uploadID })
     let location = "uploads" ;
     if(req.user.isStudent === true) {
         location = "submission" ;
@@ -20,10 +20,9 @@ function deleteFile(req,res){
     .doc(postID)
     .collection(location)
     .doc(uploadID);
-   
+    
     fileRef.get().then((docRef)=>{
         if(docRef.exists){
-
                 fileRef.delete()
                 .then(()=>{
                     console.log('Deleted!')

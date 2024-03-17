@@ -25,6 +25,7 @@ function removeStudent(req,res){
     .where('classroomID','==',classroomID)
     .get()
     .then((snapshot)=>{
+        console.log({ studentID, classroomID })
     	if(snapshot.docs.length > 0){
     		snapshot.docs[0].ref.delete()
     		.then(()=>{

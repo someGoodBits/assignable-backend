@@ -6,6 +6,7 @@ function allotPoints(req,res){
     const studentID = req.body.studentID;
     const postID = req.body.postID;
     const points = req.body.points;
+    const submissionId = req.body.submissionId;
 
 
     firestore
@@ -13,10 +14,9 @@ function allotPoints(req,res){
     .doc(classroomID)
     .collection('posts')
     .doc(postID)
-    .collection('allotPoints')
-    .doc(studentID)
-    .set({
-    	studentID,
+    .collection('submission')
+    .doc(submissionId)
+    .update({
     	points
     })
     .then(()=>{
