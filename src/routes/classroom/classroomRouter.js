@@ -61,7 +61,7 @@ router.patch(
 
 // router to delete classroom
 router.delete(
-    "/", 
+    "/:classroomID", 
     checkIfUserIsTeacher,
     checkIfClassroomExists, 
     checkIfTeacherOwnsClassroom, 
